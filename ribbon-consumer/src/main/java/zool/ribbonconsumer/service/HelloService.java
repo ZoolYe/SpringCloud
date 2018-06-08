@@ -1,6 +1,9 @@
 package zool.ribbonconsumer.service;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCollapser;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
+import com.netflix.hystrix.contrib.javanica.cache.annotation.CacheResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +19,7 @@ public class HelloService {
     RestTemplate restTemplate;
 
     @HystrixCommand(fallbackMethod = "helloFallback")
+    @CacheResult
     public String helloService(){
         long start = System.currentTimeMillis();
         restTemplate.getForEntity("http://HELLO-SERVICE/hello",String.class).getBody();
@@ -34,6 +38,27 @@ public class HelloService {
     public String defalutFallback(){
         log.info("error defalut");
         return "error defalut";
+    }
+
+    @HystrixCommand(fallbackMethod = "getUserByIdFallback")
+    public String getUserById(){
+        throw new RuntimeException("getUserById command failed");
+    }
+
+
+    public String getUserByIdFallback(Throwable throwable){
+        assert "getUserById command failed".equals(throwable.getMessage());
+        return throwable.getMessage();
+    }
+
+    @HystrixCollapser(batchMethod = "findAll",collapserProperties = {@HystrixProperty(name = "timerDelayInMilliseconds",value = "100")})
+    public void find(){
+
+    }
+
+    @HystrixCommand
+    public void findAll(){
+
     }
 
 }

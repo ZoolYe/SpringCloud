@@ -53,4 +53,9 @@ public class ConsumerController {
         return helloService.helloService();
     }
 
+    @RequestMapping(value = "/ribbon-consumer-getuserid",method = RequestMethod.GET)
+    public String getUserById(){
+        return helloService.getUserById();
+    }
+
 }
