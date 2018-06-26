@@ -1,4 +1,4 @@
-package zool.turbine;
+package zool.helloserviceapi;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class TurbineApplicationTests {
+public class HelloServiceApiApplicationTests {
 
     @Test
     public void contextLoads() {
