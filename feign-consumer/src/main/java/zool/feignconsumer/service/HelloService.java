@@ -4,7 +4,7 @@ import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 import zool.feignconsumer.domain.dto.User;
 
-@FeignClient("hello-service")
+@FeignClient(value = "HELLO-SERVICE",fallback = HelloServiceFallback.class)
 public interface HelloService {
 
     @RequestMapping("/hello")
